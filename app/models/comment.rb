@@ -7,6 +7,6 @@ class Comment < ActiveRecord::Base
   validates_associated :user
 
   JSON_INCLUDE = {only: [:id, :video_id, :content, :time, :created_at], include: {user: {only: [:email, :created_at]}}}
-  JSON_MARKER_INCLUDE = {only: [:content, :time]}
+  JSON_MARKER_INCLUDE = {only: [:content, :time], include: {user: {only: [:email]}}}
 
 end

@@ -56,7 +56,8 @@ $ ->
        },
        onMarkerReached: (marker) ->
           $('#comment_viewer > .time > .value').html(marker.time);
-          $('#comment_viewer > .comment').html(marker.text);
+          comment = marker.text + " By " + marker.user.email
+          $('#comment_viewer > .comment').html(comment);
     });
 
 
