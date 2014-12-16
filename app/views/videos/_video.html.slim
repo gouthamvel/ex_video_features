@@ -28,7 +28,7 @@ p#notice
     .col-md-7
       .preview_video_box
         .video-js-box
-          - type = v.video_url.match(/.*\.(.*)$/)[1]
+          - type = video.video_url.match(/.*\.(.*)$/)[1]
           video.video-js.vjs-default-skin#video_player controls="true" preload="auto" width="100%" height="340px" poster="http://video-js.zencoder.com/oceans-clip.png" data-setup="{}" data-comment="#{video.markers.to_json}"
             source src="#{video.video_url}" type="video/#{type}"
 
