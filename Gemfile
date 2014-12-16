@@ -29,6 +29,10 @@ gem 'slim'
 
 gem 'responders', '~> 2.0'
 
+gem 'bootstrap-sass', '~> 3.3.1'
+
+gem 'autoprefixer-rails'
+
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -54,4 +58,14 @@ group :development, :test do
 
   gem 'rspec-rails'
 
+end
+
+group :development do
+  gem 'rails_layout'
+end
+
+group :test do
+  gem 'cucumber-rails', :require => false
+  # database_cleaner is not required, but highly recommended
+  gem 'database_cleaner'
 end
