@@ -1,6 +1,6 @@
 class Video < ActiveRecord::Base
   belongs_to :user
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   validates_presence_of :video_url, message: "can't be blank"
   validates_presence_of :title, message: "can't be blank"

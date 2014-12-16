@@ -42,23 +42,24 @@ $ ->
   $("#comment_notice").click (e)->
     $(this).hide();
   player = null;
-  videojs("video_player").ready ->
-    player = this
-    speedControl(player)
-    positionControl(player)
-    comments = $("#video_player > video").data('comment')
-    player.markers({
-       markers: comments,
-       breakOverlay:{
-        display: true,
-        displayTime: 1,
-        text: (marker)->
-       },
-       onMarkerReached: (marker) ->
-          $('#comment_viewer > .time > .value').html(marker.time);
-          comment = marker.text + " By " + marker.user.email
-          $('#comment_viewer > .comment').html(comment);
-    });
+  if $("#video_player").length > 0
+    videojs("video_player").ready ->
+      player = this
+      speedControl(player)
+      positionControl(player)
+      comments = $("#video_player > video").data('comment')
+      player.markers({
+         markers: comments,
+         breakOverlay:{
+          display: true,
+          displayTime: 1,
+          text: (marker)->
+         },
+         onMarkerReached: (marker) ->
+            $('#comment_viewer > .time > .value').html(marker.time);
+            comment = marker.text + " By " + marker.user.email
+            $('#comment_viewer > .comment').html(comment);
+      });
 
 
   $(".comment_on_video").click (e)->
