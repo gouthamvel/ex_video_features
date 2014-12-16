@@ -35,6 +35,8 @@ gem 'autoprefixer-rails'
 
 gem 'rails_12factor', group: :production
 
+gem 'aws-sdk'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -67,6 +69,7 @@ end
 
 group :test do
   gem 'cucumber-rails', :require => false
+  gem 'factory_girl_rails'
   # database_cleaner is not required, but highly recommended
   gem 'database_cleaner'
 end
