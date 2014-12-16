@@ -7,7 +7,7 @@ class Video < ActiveRecord::Base
   validates_associated :user
 
   def authenticated_url
-    object = S3_BUCKET.objects[video_url.gsub "//dax-video-app-local.s3.amazonaws.com/", ""]
+    object = S3_BUCKET.objects[video_url.gsub "//#{ENV["S3_BUCKET"]}.s3.amazonaws.com/", ""]
     object.url_for(:get, { :expires => 20.minutes.from_now, :secure => true }).to_s
   end
 
