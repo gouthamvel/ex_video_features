@@ -8,7 +8,7 @@ Bundler.require(*Rails.groups)
 
 module VideoApp
   class Application < Rails::Application
-    Dotenv.load Rails.root.join('.env')
+    Dotenv.load Rails.root.join('.env') unless Rails.env.production?
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
