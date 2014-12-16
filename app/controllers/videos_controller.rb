@@ -5,12 +5,14 @@ class VideosController < ApplicationController
   respond_to :html
 
   def index
-    @videos = Video.all
+    @videos = Video.all.order("created_at desc")
     respond_with(@videos)
   end
 
   def show
-    respond_with(@video)
+    @videos = Video.all.where.not(id: [@video.id]).order("created_at desc")
+    @videos = @videos.to_a.unshift(@video)
+    respond_with(@videos)
   end
 
   def new

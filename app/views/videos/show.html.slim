@@ -1,17 +1,1 @@
-p#notice
-  = notice
-p
-  strong
-    | Title:
-  = @video.title
-p
-  strong
-    | Video url:
-  = @video.video_url
-p
-  strong
-    | User:
-  = @video.user
-= link_to 'Edit', edit_video_path(@video)
-|  | 
-= link_to 'Back', videos_path
+= render 'video'

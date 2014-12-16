@@ -1,3 +1,17 @@
 // Place all the styles related to the videos controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.preview_video_box{
+  width: 100%;
+}
+.video-js {padding-top: 0px}
+.vjs-fullscreen {padding-top: 0px}
+
+
+@media only screen and (max-width:599px) {
+  .vjs-default-skin .vjs-big-play-button {left:25%;top:25%;width:50%;height:50%;}
+}
+@media only screen and (min-width:600px) and (max-width:768px) {
+  .vjs-default-skin .vjs-big-play-button {left:25%;top:25%;width:50%;height:50%;font-size:5em;}
+}
+
