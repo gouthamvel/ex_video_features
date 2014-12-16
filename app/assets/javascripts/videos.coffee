@@ -70,10 +70,7 @@ $ ->
     $("#comment_form #comment_timestamp").html("at "+ time + " sec")
 
   $('#comment_form').on('ajax:success',(data, status, xhr)->
-    player.markers.add([{
-       time: $("#comment_time").val(),
-       text: $("#comment_content").val()
-    }]);
+    player.markers.add([ status ]);
     $('#comment_notice').html('Comment was added');
     $("#comment_form").hide()
     $("#comment_form").html('')

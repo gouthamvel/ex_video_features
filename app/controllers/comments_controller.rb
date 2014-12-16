@@ -5,10 +5,10 @@ class CommentsController < ApplicationController
 
   def create
     @video = Video.find(params[:video_id])
-    comment = @video.comments.create(comment_params)
-    comment.user = current_user
-    if comment.save
-      respond_with({success: true})
+    @comment = @video.comments.create(comment_params)
+    @comment.user = current_user
+    if @comment.save
+      render json: @comment.marker
     else
       raise "Error"
     end
