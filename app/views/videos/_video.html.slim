@@ -1,8 +1,26 @@
+script id="comment_form_template" type="text/x-handlebars-template"
+  form#new_comment.new_comment[accept-charset="UTF-8" action="/videos/{{id}}/comments" data-remote="true" method="post" name="new_comment"]
+    input[name="utf8" type="hidden" value="✓"]
+    .field
+      label[for="comment_comment"]
+        | Comment
+      #comment_timestamp
+        |  at 0 sec
+      br
+      textarea#comment_content[cols="60" name="comment[content]" rows="6"]
+
+      input#comment_time[name="comment[time]" type="hidden" value="0"]
+    .actions
+      input[name="commit" type="submit" value="Post Comment"]
+script id="video_player_template" type="text/x-handlebars-template"
+  .video-js-box
+    video.video-js.vjs-default-skin#video_player controls="true" preload="auto" width="100%" height="340px" poster="http://video-js.zencoder.com/oceans-clip.png" data-setup="{}" data-id="{{id}}"
+      source src="{{authenticated_url}}" type="video/{{type}}"
 p#notice
   = notice
 
-- video = @videos.to_a.shift
-- unless video
+- c_video = @videos.first
+- unless c_video
   .row
     .cols-md-12.col-md-offset-2
       .center-block
@@ -21,35 +39,35 @@ p#notice
         | Listing Videos
   .row
     .col-md-1
-    .col-md-11
-      = "#{video.title} By #{video.user.email}" if video
+    .col-md-11#video_title
+      = "#{c_video.title} By #{c_video.user.email}"
   .row
     .col-md-1
     .col-md-7
-      .preview_video_box
+      javascript:
+        window.current_video_id = #{c_video.id}
+      #current_video_box
         .video-js-box
-          - type = video.video_url.match(/.*\.(.*)$/)[1]
-          video.video-js.vjs-default-skin#video_player controls="true" preload="auto" width="100%" height="340px" poster="http://video-js.zencoder.com/oceans-clip.png" data-setup="{}" data-comment="#{video.markers.to_json}"
-            source src="#{video.authenticated_url}" type="video/#{type}"
+          video.video-js.vjs-default-skin#video_player controls="true" preload="auto" width="100%" height="340px" poster="http://video-js.zencoder.com/oceans-clip.png" data-id="#{c_video.id}" data-comment="#{c_video.markers.to_json}"
+            source src="#{c_video.authenticated_url}" type="video/#{c_video.type}"
 
     .col-md-4
-      ul.list-group
+      ul.list-group#playlist
         - @videos.each do |video|
-          a href="#{video_path(video)}"
-            li.list-group-item
+          a href="javscript:;" data-id="#{video.id}" data-video="#{video.as_json(Video::JSON_INCLUDE).to_json}"
+            li.list-group-item id="video-#{video.id}"
               .title
                 = video.title
               .email
                 | By
                 = video.user.email
-              .comments data-comment="#{video.markers.to_json}"
   br
   .row
     .col-md-1
     .col-md-1
-      .btn.btn-default.btn-xs.comment_on_video Comment
+      .btn.btn-default.btn-xl.comment_on_video Comment
     .col-md-2
-      .btn-group.btn-group-xs
+      .btn-group.btn-group-xl
         .btn.btn-default#repeat_reset_button
           .glyphicon.glyphicon-repeat
         .btn.btn-default#repeat_a
@@ -57,7 +75,7 @@ p#notice
         .btn.btn-default#repeat_b
           .glyphicon.glyphicon-hand-down
     .col-md-2
-      .btn-group.btn-group-xs
+      .btn-group.btn-group-xl
         .btn.btn-default
           .glyphicon.glyphicon-flash#speed_display 1X
         .btn.btn-default#speed_up
@@ -69,17 +87,6 @@ p#notice
     .col-md-1
     .col-md-11
       #comment_notice.well.well-sm
-
-  .hide#comment_form_template
-    = form_for([video, video.comments.new], remote: true) do |f|
-      .field
-        = f.label :comment
-        #comment_timestamp
-        br
-        = f.text_area :content, cols: 60, rows: 6
-        = hidden_field(:comment, :time)
-      .actions
-        = f.submit
 
   .row
     .col-md-1

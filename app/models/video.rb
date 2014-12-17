@@ -6,6 +6,8 @@ class Video < ActiveRecord::Base
   validates_presence_of :title, message: "can't be blank"
   validates_associated :user
 
+  JSON_INCLUDE = {only: [:id, :title], methods:[:authenticated_url, :type, :markers], include: {user: {only: [:email]} }}
+
   def authenticated_url
     object = S3_BUCKET.objects[video_url.gsub "//#{ENV["S3_BUCKET"]}.s3.amazonaws.com/", ""]
     object.url_for(:get, { :expires => 20.minutes.from_now, :secure => true }).to_s
@@ -17,6 +19,10 @@ class Video < ActiveRecord::Base
       c[:text] = c["content"]
       c
     end
+  end
+
+  def type
+    video_url.match(/.*\.(.*)$/)[1]
   end
 
 end

@@ -1,5 +1,3 @@
-/*! videojs-markers - v0.4.0 - 2014-12-14
-* Copyright (c) 2014 ; Licensed  */
 /*! videojs-markers !*/
 'use strict';
 
@@ -171,7 +169,7 @@
                if (currentTime >= marker.time && currentTime <= (marker.time + setting.breakOverlay.displayTime)) {
                   overlayIndex = marker.key;
                   breakOverlay.find('.vjs-break-overlay-text').text(setting.breakOverlay.text(marker));
-                  // breakOverlay.css('visibility', "visible");
+                  breakOverlay.css('visibility', "visible");
 
                   // trigger event
                   if(options.onMarkerReached) {
