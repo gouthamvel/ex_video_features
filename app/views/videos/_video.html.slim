@@ -1,5 +1,3 @@
-p#notice
-  = notice
 - c_video = @videos.first
 - unless c_video
   .row
@@ -21,12 +19,45 @@ p#notice
   .row
     .col-md-1
     .col-md-7
-      javascript:
-        window.current_video_id = #{c_video.id}
-      #current_video_box
-        .video-js-box
-          video.video-js.vjs-default-skin#video_player controls="true" preload="auto" width="100%" height="340px" poster="http://video-js.zencoder.com/oceans-clip.png" data-id="#{c_video.id}" data-comment="#{c_video.markers.to_json}"
-            source src="#{c_video.authenticated_url}" type="video/#{c_video.type}"
+      .row
+        javascript:
+          window.current_video_id = #{c_video.id}
+        #current_video_box
+          .video-js-box
+            video.video-js.vjs-default-skin#video_player controls="true" preload="auto" width="100%" height="340px" poster="http://video-js.zencoder.com/oceans-clip.png" data-id="#{c_video.id}" data-comment="#{c_video.markers.to_json}"
+              source src="#{c_video.authenticated_url}" type="video/#{c_video.type}"
+      br
+      .row
+        .col-md-2
+          .btn.btn-default.btn-xl.comment_on_video Comment
+        .col-md-3
+          .btn-group.btn-group-xl
+            .btn.btn-default#repeat_reset_button
+              .glyphicon.glyphicon-repeat
+            .btn.btn-default#repeat_a
+              .glyphicon.glyphicon-hand-down
+            .btn.btn-default#repeat_b
+              .glyphicon.glyphicon-hand-down
+        .col-md-3
+          .btn-group.btn-group-xl
+            .btn.btn-default
+              .glyphicon.glyphicon-flash#speed_display 1X
+            .btn.btn-default#speed_up
+              .glyphicon.glyphicon-chevron-up
+            .btn.btn-default#speed_down
+              .glyphicon.glyphicon-chevron-down
+      br
+      .row
+        .col-md-12
+          #comment_notice.well.well-sm
+
+      .row
+        .col-md-12
+          #comment_form
+      .row
+        .col-md-12
+          h3 Comments
+          #comment_view
 
     .col-md-4
       ul.list-group#playlist
@@ -38,39 +69,3 @@ p#notice
               .email
                 | By
                 = video.user.email
-  br
-  .row
-    .col-md-1
-    .col-md-1
-      .btn.btn-default.btn-xl.comment_on_video Comment
-    .col-md-2
-      .btn-group.btn-group-xl
-        .btn.btn-default#repeat_reset_button
-          .glyphicon.glyphicon-repeat
-        .btn.btn-default#repeat_a
-          .glyphicon.glyphicon-hand-down
-        .btn.btn-default#repeat_b
-          .glyphicon.glyphicon-hand-down
-    .col-md-2
-      .btn-group.btn-group-xl
-        .btn.btn-default
-          .glyphicon.glyphicon-flash#speed_display 1X
-        .btn.btn-default#speed_up
-          .glyphicon.glyphicon-chevron-up
-        .btn.btn-default#speed_down
-          .glyphicon.glyphicon-chevron-down
-
-  .row
-    .col-md-1
-    .col-md-11
-      #comment_notice.well.well-sm
-
-  .row
-    .col-md-1
-    .col-md-11
-      #comment_form
-  .row
-    .col-md-1
-    .col-md-7
-      h3 Comments
-      #comment_view

@@ -3,6 +3,6 @@ form#new_video.directUpload.form-inline[enctype="multipart/form-data" action="/v
   / #TODO add authenticity_token dynamically
   input[type="hidden" name="authenticity_token" value="HMryHrbsR56x7gGniVIe3u5yzdWvF7A8rKGMR3peXE2YS4UnE0kRHmLL5gt6J666WmijOD/oXnwQuTU5htcb7w=="]
     #partial_input_fields
-      {{> videos/_form_inputs }}
+      | {{> videos/_form_inputs }}
     .actions
       input[type="submit" name="commit" value="Create Video"]

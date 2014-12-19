@@ -13,6 +13,6 @@ html
   body.container
     header
       = render 'layouts/navigation'
-    main[role="main"]
       = render 'layouts/messages'
-      = yield
+    main[role="main"]
+      == yield
