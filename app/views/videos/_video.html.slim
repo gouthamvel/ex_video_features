@@ -62,7 +62,7 @@
     .col-md-4
       ul.list-group#playlist
         - @videos.each do |video|
-          a href="javscript:;" data-id="#{video.id}" data-video="#{video.as_json(Video::JSON_INCLUDE).to_json}"
+          a href="#" data-id="#{video.id}" data-video="#{video.as_json(Video::JSON_INCLUDE).to_json}"
             li.list-group-item id="video-#{video.id}"
               .title
                 = video.title
