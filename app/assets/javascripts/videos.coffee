@@ -86,7 +86,7 @@ setupPlayer = ->
   $("#next",$(myButton.el())).on 'click', ->
     ele = $("#video-"+currentVideoId())
     next_ele = $(ele).parent().next()
-    if prev_ele.length > 0
+    if next_ele.length > 0
       changeVideo(videoId(next_ele))
     else
       alert("no more videos in playlist")
