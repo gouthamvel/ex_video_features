@@ -1,0 +1,6 @@
+span#previous
+  span.glyphicon.glyphicon-fast-backward.player_icon
+span
+  | &nbsp;&nbsp;&nbsp;
+span#next
+  span.glyphicon.glyphicon-fast-forward.player_icon

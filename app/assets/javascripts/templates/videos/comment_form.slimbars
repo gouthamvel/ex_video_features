@@ -1,0 +1,13 @@
+form#new_comment.new_comment[accept-charset="UTF-8" action="/videos/{{id}}/comments" data-remote="true" method="post" name="new_comment"]
+  input[name="utf8" type="hidden" value="✓"]
+  .field
+    label[for="comment_comment"]
+      | Comment
+    #comment_timestamp
+      |  at 0 sec
+    br
+    textarea#comment_content[cols="60" name="comment[content]" rows="6"]
+
+    input#comment_time[name="comment[time]" type="hidden" value="0"]
+  .actions
+    input[name="commit" type="submit" value="Post Comment"]

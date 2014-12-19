@@ -13,7 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
-//= require handlebars
+//= require handlebars.runtime
 //= require video
 //= require videojs-markers
+//= require_tree ./templates
 //= require_tree .

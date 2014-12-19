@@ -1,24 +1,5 @@
-script id="comment_form_template" type="text/x-handlebars-template"
-  form#new_comment.new_comment[accept-charset="UTF-8" action="/videos/{{id}}/comments" data-remote="true" method="post" name="new_comment"]
-    input[name="utf8" type="hidden" value="✓"]
-    .field
-      label[for="comment_comment"]
-        | Comment
-      #comment_timestamp
-        |  at 0 sec
-      br
-      textarea#comment_content[cols="60" name="comment[content]" rows="6"]
-
-      input#comment_time[name="comment[time]" type="hidden" value="0"]
-    .actions
-      input[name="commit" type="submit" value="Post Comment"]
-script id="video_player_template" type="text/x-handlebars-template"
-  .video-js-box
-    video.video-js.vjs-default-skin#video_player controls="true" preload="auto" width="100%" height="340px" poster="http://video-js.zencoder.com/oceans-clip.png" data-setup="{}" data-id="{{id}}"
-      source src="{{authenticated_url}}" type="video/{{type}}"
 p#notice
   = notice
-
 - c_video = @videos.first
 - unless c_video
   .row
@@ -28,10 +9,6 @@ p#notice
           | Video library is empty Go ahead and &nbsp;
           = link_to 'Upload a Video', new_video_path, class: "btn btn-default"
 - else
-  .row
-    .col-md-1
-    .col-md-11
-      = link_to 'Upload Video', new_video_path, class: "btn btn-default"
   .row
     .col-md-1
     .col-md-11
@@ -94,10 +71,6 @@ p#notice
       #comment_form
   .row
     .col-md-1
-    .col-md-11
-      .comment#comment_viewer
-        span.time
-          | Comment at time &nbsp;
-          span.value
-        .well.well-lg.comment
-          | Comments appear here
+    .col-md-7
+      h3 Comments
+      #comment_view

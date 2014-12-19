@@ -1,0 +1,37 @@
+<div class="panel panel-default widget">
+  <div class="panel-heading">
+    <span class="glyphicon glyphicon-comment"></span>
+    <h3 class="panel-title">
+      Recent Comments<span class="label label-info pull-right"> Count: {{comments.length}}</span>
+    </h3>
+  </div>
+  <div class="panel-body">
+    <ul class="list-group">
+    {{#each comments}}
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-xs-2 col-md-1">
+            <img alt="" class="img-circle img-responsive" src="http://placehold.it/80" />
+          </div>
+          <div class="col-xs-10 col-md-11">
+            <div>
+              <a href="/videos?user_id={{this.user.id}}">By:{{this.user.email}} on {{this.formated_created_at}}</a>
+            </div>
+            <div class="comment-text">
+              {{this.content}}
+              <div>
+                The video was commented at {{this.time}} sec in video
+                <a href="javascript:;" class="set_play_video" data-time="{{this.time}}">
+                  <span class="glyphicon glyphicon-play">
+                  </span>
+                  Play from {{this.time}}
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    {{/each}}
+    </ul>
+  </div>
+</div>

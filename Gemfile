@@ -29,7 +29,9 @@ gem 'devise'
 
 gem 'slim'
 
-gem 'responders', '~> 2.0'
+gem 'handlebars_assets'
+
+gem 'responders', '~> 2.0.0.alpha1'
 
 gem 'bootstrap-sass', '~> 3.3.1'
 

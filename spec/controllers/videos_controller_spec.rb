@@ -24,9 +24,17 @@ RSpec.describe VideosController, :type => :controller do
   # Video. As you add validations to Video, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    {title: "title 1", video_url: "//dax-video-app-local.s3.amazonaws.com/uploads/48b../file.avi", user: @user}
+      {title: "title 1", video_url: "//dax-video-app-local.s3.amazonaws.com/uploads/48b../file.avi", user: @user}
+  }
+  let(:valid_array_attributes) {
+    [
+      {title: "title 1", video_url: "//dax-video-app-local.s3.amazonaws.com/uploads/48b../file.avi", user: @user}
+    ]
   }
 
+  let(:invalid_array_attributes) {
+    [{title: "title 1", video_url: nil}]
+  }
   let(:invalid_attributes) {
     {title: "title 1", video_url: nil}
   }
@@ -46,18 +54,18 @@ RSpec.describe VideosController, :type => :controller do
 
   describe "GET index" do
     it "assigns all videos as @videos" do
-      video = Video.create! valid_attributes
+      video = Video.create! valid_array_attributes
       get :index, {}
       expect(response).to have_http_status(:success)
-      expect(assigns(:videos)).to eq([video])
+      expect(assigns(:videos)).to eq(video)
     end
   end
 
   describe "GET show" do
     it "assigns the requested video as @video" do
-      video = Video.create! valid_attributes
+      video = Video.create! valid_array_attributes
       get :show, {:id => video.to_param}, valid_session
-      expect(assigns(:video)).to eq(video)
+      expect(assigns(:videos)).to eq(video)
     end
   end
 
@@ -70,9 +78,9 @@ RSpec.describe VideosController, :type => :controller do
 
   describe "GET edit" do
     it "assigns the requested video as @video" do
-      video = Video.create! valid_attributes
+      video = Video.create! valid_array_attributes
       get :edit, {:id => video.to_param}, valid_session
-      expect(assigns(:video)).to eq(video)
+      expect(assigns(:video)).to eq(video.first)
     end
   end
 
@@ -80,30 +88,31 @@ RSpec.describe VideosController, :type => :controller do
     describe "with valid params" do
       it "creates a new Video" do
         expect {
-          post :create, {:video => valid_attributes}, valid_session
+          post :create, {:video => valid_array_attributes}, valid_session
         }.to change(Video, :count).by(1)
       end
 
       it "assigns a newly created video as @video" do
-        post :create, {:video => valid_attributes}, valid_session
-        expect(assigns(:video)).to be_a(Video)
-        expect(assigns(:video)).to be_persisted
+        post :create, {:video => valid_array_attributes}, valid_session
+        expect(assigns(:videos)).to be_a(Array)
+        expect(assigns(:videos).first).to be_persisted
       end
 
       it "redirects to the created video" do
-        post :create, {:video => valid_attributes}, valid_session
+        post :create, {:video => valid_array_attributes}, valid_session
         expect(response).to redirect_to(Video.last)
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved video as @video" do
-        post :create, {:video => invalid_attributes}, valid_session
-        expect(assigns(:video)).to be_a_new(Video)
+        post :create, {:video => invalid_array_attributes}, valid_session
+        expect(assigns(:videos)).to be_a(Array)
+        expect(assigns(:videos).first).to be_a_new(Video)
       end
 
       it "re-renders the 'new' template" do
-        post :create, {:video => invalid_attributes}, valid_session
+        post :create, {:video => invalid_array_attributes}, valid_session
         expect(response).to render_template("new")
       end
     end

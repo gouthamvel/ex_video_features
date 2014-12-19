@@ -5,12 +5,12 @@ class VideosController < ApplicationController
   respond_to :html
 
   def index
-    @videos = Video.all.where(user: current_user).order("created_at desc")
+    @videos = Video.all.where(user: get_user).order("created_at desc")
     respond_with(@videos)
   end
 
   def show
-    @videos = Video.all.where(user: current_user).order("created_at desc")
+    @videos = Video.all.where(user: get_user).order("created_at desc")
     respond_with(@videos)
   end
 
@@ -24,10 +24,11 @@ class VideosController < ApplicationController
   end
 
   def create
-    @video = Video.new(video_params)
-    @video.user = current_user
-    @video.save
-    respond_with(@video)
+    @videos = Video.create(videos_params[:video])
+    @videos.each{|v| v.user = current_user }
+    @videos.each &:save
+    # hack for respond_with
+    respond_with(@videos.first)
   end
 
   def update
@@ -41,6 +42,11 @@ class VideosController < ApplicationController
   end
 
   private
+
+    def get_user
+      params[:user_id]? User.find(params[:user_id]) : current_user
+    end
+
     def set_video
       @video = Video.find(params[:id])
       @video.user = current_user
@@ -48,5 +54,9 @@ class VideosController < ApplicationController
 
     def video_params
       params.require(:video).permit(:title, :video_url)
+    end
+
+    def videos_params
+      params.permit(video: [:title, :video_url])
     end
 end

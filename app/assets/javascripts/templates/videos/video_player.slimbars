@@ -1,0 +1,3 @@
+.video-js-box
+  video.video-js.vjs-default-skin#video_player controls="true" preload="auto" width="100%" height="340px" poster="http://video-js.zencoder.com/oceans-clip.png" data-setup="{}" data-id="{{id}}"
+    source src="{{authenticated_url}}" type="video/{{type}}"

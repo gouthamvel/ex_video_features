@@ -59,33 +59,51 @@ changePlayerData = (data) ->
   player.play()
 
 createPlayer = (video_anchor_ele)->
-  video_player_template = Handlebars.compile($("#video_player_template").html())
   ele_data = $(video_anchor_ele).data("video")
-  $("#current_video_box").html(video_player_template(ele_data));
+  $("#current_video_box").html(JST['videos/video_player'](ele_data));
   ele_data
+
+renderComments = (comments)->
+  $("#comment_view").html(JST['videos/comments_view']({comments: comments}));
 
 getPlayer = (id="video_player")->
   videojs(id)
 
-initPlayer = (id, markers)->
-  videojs(document.getElementById(id), {
+setupPlayer = ->
+  console.log "setupPlayer"
+  window.player_set = true
+  player = getPlayer()
+  myButton = player.controlBar.addChild('button');
+  $(myButton.el()).append(JST["player/playlist_controls"])
+  myButton.addClass("player_next_prev");
+  $("#previous",$(myButton.el())).on 'click', ->
+    ele = $("#video-"+currentVideoId())
+    prev_ele = $(ele).parent().prev()
+    if prev_ele.length > 0
+      changeVideo(videoId(prev_ele))
+    else
+      alert("no more videos in playlist")
+  $("#next",$(myButton.el())).on 'click', ->
+    ele = $("#video-"+currentVideoId())
+    next_ele = $(ele).parent().next()
+    if prev_ele.length > 0
+      changeVideo(videoId(next_ele))
+    else
+      alert("no more videos in playlist")
 
-    }).ready ->
+initPlayer = (id, markers)->
+  videojs(document.getElementById(id)).ready ->
     player = this
+    setupPlayer() unless window.player_set
     speedControl(player)
     positionControl(player)
-    # player.markers({
-    #    markers: markers,
-    #    breakOverlay:{
-    #     display: true,
-    #     displayTime: 1,
-    #     text: (marker)->
-    #    },
-    #    onMarkerReached: (marker) ->
-    #       $('#comment_viewer > .time > .value').html(marker.time);
-    #       comment = marker.text + " By " + marker.user.email
-    #       $('#comment_viewer > .comment').html(comment);
-    # });
+
+changeVideo = (id) ->
+  ele = $("#video-"+id).parent()
+  data = $(ele).data('video')
+  changePlayerData(data)
+  initPlayer("video_player", data.markers)
+  renderComments(data.markers)
 
 
 $ ->
@@ -97,29 +115,34 @@ $ ->
     data = $("#video_player").data("comment")
     initPlayer("video_player", data)
     setActivePlaylist()
+    renderComments(data)
+
+  $(".set_play_video").click (e)->
+    time = parseInt($(this).data("time"))
+    getPlayer().currentTime(time)
+    getPlayer().play()
 
   $("#playlist > a").click ->
     ele = this
-    unless currentVideoId() == videoId(this)
-      console.log "changing player"
-      console.log "current " + currentVideoId()
-      console.log "this " + videoId(this)
-      data = changePlayerData($(ele).data('video'))
-      initPlayer("video_player", data)
+    changeVideo(videoId(this)) unless currentVideoId() == videoId(this)
 
 
 
   $(".comment_on_video").click (e)->
-    comment_template = Handlebars.compile($("#comment_form_template").html())
+    getPlayer().pause()
     time = parseInt(getPlayer().currentTime())
-    $("#comment_form").html(comment_template({id: currentVideoId()}));
+    $("#comment_form").html(JST['videos/comment_form']({id: currentVideoId()}));
     $("#comment_form").show()
     $("#comment_form #comment_time").val(time);
     $("#comment_form #comment_timestamp").html("at "+ time + " sec")
 
   $('#comment_form').on('ajax:success',(data, status, xhr)->
-    getPlayer().markers.add([ status ]);
     $('#comment_notice').html('Comment was added');
+    video_id = currentVideoId()
+    video_data = $("#video-"+video_id).parent().data('video')
+    video_data.markers.push(status)
+    renderComments(video_data.markers)
+    $("#video-"+video_id).parent().data('video', video_data)
     $("#comment_form").hide()
     $("#comment_form").html('')
 

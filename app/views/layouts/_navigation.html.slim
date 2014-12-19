@@ -1,0 +1,30 @@
+- # navigation styled for Bootstrap 3.0
+/ nav.navbar.navbar-inverse.navbar-fixed-top
+/   .container
+/     .navbar-header
+/       button.navbar-toggle[type="button" data-toggle="collapse" data-target=".navbar-collapse"]
+/         span.sr-only
+/           | Toggle navigation
+/         span.icon-bar
+/         span.icon-bar
+/         span.icon-bar
+/       = link_to 'Home', root_path, class: 'navbar-brand'
+/     .collapse.navbar-collapse
+/       = render 'layouts/navigation_links'
+nav.navbar.navbar-inverse.navbar-fixed-top
+  .container
+    .navbar-header
+      button.navbar-toggle[type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-9"]
+        span.sr-only
+          | Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand[href="#"]
+        | Video App
+    #bs-example-navbar-collapse-9.collapse.navbar-collapse
+      ul.nav.navbar-nav
+        = render 'layouts/navigation_links'
+      = link_to new_video_path, class: "nav-btn-border" do
+        button.btn.btn-default.navbar-btn.navbar-right[type="button"]
+          | Upload Videos
