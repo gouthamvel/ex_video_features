@@ -25,6 +25,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top
     #bs-example-navbar-collapse-9.collapse.navbar-collapse
       ul.nav.navbar-nav
         = render 'layouts/navigation_links'
-      = link_to new_video_path, class: "nav-btn-border" do
-        button.btn.btn-default.navbar-btn.navbar-right[type="button"]
-          | Upload Videos
+      - if current_user
+        = link_to new_user_video_path(current_user), class: "nav-btn-border" do
+          button.btn.btn-default.navbar-btn.navbar-right[type="button"]
+            | Upload Videos

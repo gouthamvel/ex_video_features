@@ -1,16 +1,22 @@
 Rails.application.routes.draw do
-  resources :videos do
-    resources :comments
+  get 'users/index'
+
+  root 'videos#index'
+
+  # get 'videos/index'
+
+  devise_for :users, path: 'session', controllers: { :registrations => "registrations" }
+
+  resources :users do
+    resources :videos do
+      resources :comments
+    end
   end
 
-  get 'videos/index'
-
-  devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'videos#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

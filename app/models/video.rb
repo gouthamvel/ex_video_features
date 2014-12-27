@@ -9,12 +9,12 @@ class Video < ActiveRecord::Base
   JSON_INCLUDE = {only: [:id, :title], methods:[:authenticated_url, :type, :markers], include: {user: {only: [:email]} }}
 
   def static_local_url
-    name = video_url.gsub /\/\/#{ENV['S3_BUCKET']}.s3.amazonaws.com\/uploads\/.*\/.*-(.*)/, "\\1"
+    name = video_url.gsub /\/\/#{ENV['S3_BUCKET']}.s3.amazonaws.com\/uploads\/.*\/(.*)/, "\\1"
     "/assets/uploads/#{name}"
   end
 
   def authenticated_url
-    return static_local_url if ENV['LOCAL_VIDEO']
+    # return static_local_url if ENV['LOCAL_VIDEO']
     object = S3_BUCKET.objects[video_url.gsub "//#{ENV["S3_BUCKET"]}.s3.amazonaws.com/", ""]
     object.url_for(:get, { :expires => 20.minutes.from_now, :secure => true }).to_s
   end

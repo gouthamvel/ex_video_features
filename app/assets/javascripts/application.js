@@ -14,6 +14,8 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require handlebars.runtime
+//= require dropzone
+//= require purl
 //= require video
 //= require videojs-markers
 //= require_tree ./templates

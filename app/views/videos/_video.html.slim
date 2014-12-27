@@ -1,27 +1,54 @@
 - c_video = @videos.first
 - unless c_video
-  .row
-    .cols-md-12.col-md-offset-2
-      .center-block
-        H3
-          | Video library is empty Go ahead and &nbsp;
-          = link_to 'Upload a Video', new_video_path, class: "btn btn-default"
+  - if current_user.id.to_i == params[:user_id].to_i
+    .row
+      .cols-md-12.col-md-offset-2
+        .center-block
+          H3
+            | Video library is empty Go ahead and &nbsp;
+            = link_to 'Upload a Video', new_user_video_path(current_user), class: "btn btn-default"
+  - else
+    .row
+      .cols-md-12.col-md-offset-2
+        .center-block
+          H3
+            | No videos in #{@user_from_param.email} library
+
 - else
+  br
+  .row
+    .col-md-8
+      .col-md-3
+        = gravatar_tag c_video.user.email, :size => 100
+        br
+        - if current_user.id.to_i == params[:user_id].to_i
+          .col-md-11.col-md-offset-1
+            = link_to new_user_video_path(current_user) do
+              button.btn.btn-default[type="button"]
+                | Upload Videos
+      .col-md-8
+        h4
+          | Listing Videos By
+          br
+          | #{c_video.user.email}
+        span
+          strong Profile path:
+        span
+          |  #{user_videos_url(c_video.user)}
+
   .row
     .col-md-1
     .col-md-11
-      h3
-        | Listing Videos
-  .row
-    .col-md-1
-    .col-md-11#video_title
-      = "#{c_video.title} By #{c_video.user.email}"
+      h3#video_title
+        | Title:
+        = "#{c_video.title}"
   .row
     .col-md-1
     .col-md-7
       .row
         javascript:
           window.current_video_id = #{c_video.id}
+          window.current_user_id = #{current_user.id}
         #current_video_box
           .video-js-box
             video.video-js.vjs-default-skin#video_player controls="true" preload="auto" width="100%" height="340px" poster="http://video-js.zencoder.com/oceans-clip.png" data-id="#{c_video.id}" data-comment="#{c_video.markers.to_json}"
@@ -30,17 +57,17 @@
       .row
         .col-md-2
           .btn.btn-default.btn-xl.comment_on_video Comment
-        .col-md-3
+        .col-md-4
           .btn-group.btn-group-xl
-            .btn.btn-default#repeat_reset_button
+            .btn.btn-default.btn-xw#repeat_reset_button
               .glyphicon.glyphicon-repeat
             .btn.btn-default#repeat_a
               .glyphicon.glyphicon-hand-down
             .btn.btn-default#repeat_b
               .glyphicon.glyphicon-hand-down
-        .col-md-3
+        .col-md-4
           .btn-group.btn-group-xl
-            .btn.btn-default
+            .btn.btn-default.btn-xw#speed_reset
               .glyphicon.glyphicon-flash#speed_display 1X
             .btn.btn-default#speed_up
               .glyphicon.glyphicon-chevron-up

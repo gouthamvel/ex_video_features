@@ -1,0 +1,31 @@
+br
+.row
+  .col-xs-12.col-sm-offset-3.col-sm-6
+    .panel.panel-default
+      .panel-heading.c-list
+        span.title User's
+      ul#contact-list.list-group
+        - @users.each do |user|
+          li.list-group-item
+            .col-xs-12.col-sm-3
+              = link_to user_videos_url(user) do
+                = gravatar_tag user.email, size: 100, class: "img-responsive img-circle"
+              / img alt=("Scott Stevens") src="http://api.randomuser.me/portraits/men/49.jpg" /
+            .col-xs-12.col-sm-9
+              span.name
+                = user.email.gsub(/@.*/, "")
+              br/
+              span.glyphicon.glyphicon-facetime-video
+                | &nbsp;
+                = user.videos.count
+              br/
+              span.glyphicon.glyphicon-comment
+                | &nbsp;
+                = user.comments.count
+              br/
+              span
+                | &nbsp;
+                = user.email
+              br/
+            .clearfix
+

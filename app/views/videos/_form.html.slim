@@ -1,4 +1,9 @@
-= form_for(@video, html: { class: "directUpload form-inline" }) do |f|
+#dropzone.col-ms-6(data-s3_url="#{@s3_direct_post.url}" data-form_data="#{@s3_direct_post.fields.to_json}")
+  form#demo-upload.dropzone.dz-clickable
+    .dz-default.dz-message
+      span
+        | Drag & drop files here to upload
+= form_for([current_user, Video.new], html: { class: "directUpload form-inline" }) do |f|
   - if @video.errors.any?
     #error_explanation
       h2
@@ -9,15 +14,54 @@
           li
             = message
   #partial_input_fields
+  #actions.row
+    .col-lg-7
+      span.btn.btn-success.fileinput-button.dz-clickable
+        i.glyphicon.glyphicon-plus
+        span
+          | Add files...
+    .col-lg-5
+      span.fileupload-process
 
-  - if @video.new_record?
-    .btn.btn-primary.btn-xs#add-more-videos Add more videos
+      #total-progress.progress.progress-striped.active[role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="opacity: 0;"]
+        .progress-bar.progress-bar-success[style="width: 100%;" data-dz-uploadprogress=""]
 
+  #previews.files
+    #template.file-row
+      div
+        span.preview
+          img[data-dz-thumbnail]
+      div
+        span.name[data-dz-name]
+        strong.error.text-danger[data-dz-errormessage]
+        | (
+        span.size[data-dz-size]
+        | )
+      .form_inputs
+
+      div
+        .progress.progress-striped.active[role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"]
+          .progress-bar.progress-bar-success[style="width:0%;" data-dz-uploadprogress]
+      div
+        button.btn.btn-danger.delete[data-dz-remove]
+          i.glyphicon.glyphicon-trash
+          span
+            | Delete
+      hr
   .actions
     = f.submit
 
 
 javascript:
+  $(function() {
+    $("#new_video").submit(function(argument) {
+      if($("#previews").html() == ''){
+        $("<div id='error_explanation'> Please add atleast one video</div>").prependTo("#partial_input_fields")
+        return false
+      }
+    })
+  });
+
   function makeid()
   {
       var text = "";
@@ -83,17 +127,17 @@ javascript:
       }
     });
   }
-  function init(){
-    $('.directUpload').find("input:file").each(function(i, elem) {
-      setupUpload(i, elem)
-    });
-  }
-  $(function() {
-    $("#partial_input_fields").append(JST['videos/form_inputs']())
-    $("#add-more-videos").click(function(){
-      $("#partial_input_fields").append(JST['videos/form_inputs']())
-      init()
-    })
-    init();
-  });
+  // function init(){
+  //   $('.directUpload').find("input:file").each(function(i, elem) {
+  //     setupUpload(i, elem)
+  //   });
+  // }
+  // $(function() {
+  //   $("#partial_input_fields").append(JST['videos/form_inputs']())
+  //   $("#add-more-videos").click(function(){
+  //     $("#partial_input_fields").append(JST['videos/form_inputs']())
+  //     init()
+  //   })
+  //   init();
+  // });
 
