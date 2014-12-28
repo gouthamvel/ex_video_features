@@ -204,7 +204,6 @@ $ ->
     getPlayer().play()
 
   $("#playlist > a").on 'click', (e)->
-    e.preventDefault()
     ele = this
     changeVideo(videoId(this)) unless currentVideoId() == videoId(this)
 
